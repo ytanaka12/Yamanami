@@ -1,7 +1,6 @@
 import math
 import time
 
-
 RAD2DEG = 180.0 / math.pi
 DEG2RAD = math.pi / 180.0
 

@@ -3,11 +3,11 @@ import odrive
 from odrive.enums import *
 import time
 import math
-from myutil import *
+from Yamanami.myutil import *
 
 ##
 # @class ODriveDriver
-# @brief for rinta
+# @brief This class wraps function of odrive.
 # @details
 class ODriveDriver:
     my_drive = None  # ODrive Instance
