@@ -12,6 +12,7 @@ tk.SamplingTime = 0.005
 
 def main():
     robot.init()
+    robot.moveHome()
 
     tick = 0.0
 
