@@ -28,6 +28,7 @@ def main():
             pass
 
     except KeyboardInterrupt:
+        print("break")
         pass
 
     robot.terminate()

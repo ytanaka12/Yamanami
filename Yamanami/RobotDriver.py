@@ -5,12 +5,6 @@ import time
 
 class RobotDriver(ODriveDriver):
 
-    #ODrive = ODriveDriver(odrive_serial_number="207835863056")
-
-    #tk = myutil.TimeKeeper()
-    #tk.SamplingTime = 0.005
-
-
     def init(self):
         self.connectToODrive()
         self.clearError()
