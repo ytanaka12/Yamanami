@@ -5,6 +5,19 @@ RAD2DEG = 180.0 / math.pi
 DEG2RAD = math.pi / 180.0
 
 
+class Vector2D:
+    x = 0.0
+    y = 0.0
+    pass
+
+
+class Vector3D:
+    x = 0.0
+    y = 0.0
+    z = 0.0
+    pass
+
+
 class TimeKeeper:
     SamplingTime = 0.01
     StartTime = None
@@ -30,6 +43,14 @@ class TimeKeeper:
 
 def clamp(num, min_value, max_value):
     return max(min(num, max_value), min_value)
+
+
+def distance2D(ax: float, ay: float, bx: float, by:float) -> float:
+    return math.sqrt((ax - bx) ** 2 + (ay - by) ** 2)
+
+
+def distance3D(ax: float, ay: float, az: float, bx: float, by: float, bz: float) -> float:
+    return math.sqrt((ax - bx) ** 2 + (ay - by) ** 2 + (az - bz) ** 2)
 
 
 
