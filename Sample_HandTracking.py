@@ -12,7 +12,7 @@ def getTrackingFlag(hand_landmark):
     thumb_tip = hand_landmark[mp_hands.HandLandmark.THUMB_TIP]
     index_finger_tip = hand_landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
 
-    if distance2D(thumb_tip.x, thumb_tip.y, index_finger_tip.x, index_finger_tip.y) < 0.03:
+    if distance2D(thumb_tip.x, thumb_tip.y, index_finger_tip.x, index_finger_tip.y) < 0.05:
         return True
 
     return False
@@ -22,7 +22,7 @@ def main(sdict: dict = SharedData.SharedDict):
 
 
     cap = cv2.VideoCapture(1)
-    with mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
+    with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.8) as hands:
         try:
             while cap.isOpened():
                 success, image = cap.read()
@@ -49,7 +49,7 @@ def main(sdict: dict = SharedData.SharedDict):
                         )
                         pass
 
-                    wrist_pos = results.multi_hand_landmarks[0].landmark[mp_hands.HandLandmark.WRIST]
+                    wrist_pos = results.multi_hand_landmarks[0].landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
                     sdict["tracking_flag"] = getTrackingFlag(results.multi_hand_landmarks[0].landmark)
                     sdict["hand_isDetected"] = True
                     sdict["hand_pos_x"] = wrist_pos.x

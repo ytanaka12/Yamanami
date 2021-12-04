@@ -5,6 +5,7 @@ import time
 from multiprocessing import Process, Manager
 import Sample_HandTracking as HandT
 import SharedData
+from DampedFilter import DampedFilter
 
 robot = Yamanami.RobotDriver(odrive_serial_number="207835863056")
 
@@ -12,8 +13,28 @@ tk = Yamanami.TimeKeeper()
 tk.SamplingTime = 0.005
 
 
-def visual_servo(target_x: float = 0.5, target_y: float = 0.5):
+CPARAM_P = 0.3
+CPARAM_I = 0.001
+CPARAM_D = 0.05
+Ix = 0.0
+Iy = 0.0
+Bef_X = 0.5
+Bef_Y = 0.5
 
+def visual_servo(hand_pos_x: float = 0.5, hand_pos_y: float = 0.5):
+    global Bef_X, Bef_Y
+    ctrl_x = CPARAM_P * (0.5 - hand_pos_x) - CPARAM_D * (hand_pos_x - Bef_X)
+    ctrl_y = CPARAM_P * (0.5 - hand_pos_y) - CPARAM_D * (hand_pos_y - Bef_Y)
+    Bef_X = hand_pos_x
+    Bef_Y = hand_pos_y
+    global Ix, Iy
+    Ix +=   CPARAM_I * (0.5 - hand_pos_x)
+    Iy +=   CPARAM_I * (0.5 - hand_pos_y)
+
+    cur_angle_0 = robot.getCurrentJointAngle_Axis0()
+    cur_angle_1 = robot.getCurrentJointAngle_Axis1()
+    robot.setJointAngle_Axis0(cur_angle_0 + ctrl_x + Ix)
+    robot.setJointAngle_Axis1(cur_angle_1 - ctrl_y - Iy)
     return
 
 
@@ -25,26 +46,15 @@ def robot_main(sdict: dict = SharedData.SharedDict):
 
     robot.moveHome()
 
-    robot.moveJoint(0.0 * DEG2RAD, 30.0 * DEG2RAD, 2.0)
-
-    tick = 0.0
-
     print("Press Ctrl + C to teminate.")
     try:
         while True:
             if sdict["terminate_flag"] == True:
                 break
 
-            if sdict["hand_isDetected"] == True:
-                print("Tracking Flag: {}".format(sdict["tracking_flag"]))
-                #print("hand pos: {:.3f} / {:.3f}".format(sdict["hand_pos_x"], sdict["hand_pos_y"]))
+            if sdict["hand_isDetected"] == True and sdict["tracking_flag"] == True:
+                visual_servo(sdict["hand_pos_x"], sdict["hand_pos_y"])
                 pass
-
-            angle_0 = 30.0 * math.sin(tick)
-            angle_1 = 30.0 * math.cos(tick)
-            robot.setJointAngle_Axis0(angle_0 * DEG2RAD)
-            robot.setJointAngle_Axis1(angle_1 * DEG2RAD)
-            tick += 0.05
 
             tk.SleepToKeep()
             pass
@@ -59,7 +69,6 @@ def robot_main(sdict: dict = SharedData.SharedDict):
 
 
 def main():
-    buf_dict = dict(pos_x=0.01, pos_y=0.0, isRock=False)
     sdict = Manager().dict(SharedData.SharedDict)
 
     process_robot = Process(target = robot_main, args = [sdict] )

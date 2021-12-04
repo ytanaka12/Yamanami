@@ -173,7 +173,7 @@ class ODriveDriver:
     def setODriveParameters(self):
         self.my_drive.axis0.motor.config.motor_type = MOTOR_TYPE_HIGH_CURRENT
         self.my_drive.axis0.motor.config.requested_current_range = 9
-        self.my_drive.axis0.motor.config.current_lim = 10
+        self.my_drive.axis0.motor.config.current_lim = 20
         self.my_drive.axis0.motor.config.resistance_calib_max_voltage = 8
         self.my_drive.axis0.motor.config.calibration_current = 10
         self.my_drive.axis0.motor.config.pole_pairs = 14/2
@@ -184,7 +184,7 @@ class ODriveDriver:
         self.my_drive.axis0.encoder.config.calib_range = 0.8
         self.my_drive.axis0.encoder.config.calib_scan_distance = 5.0
         self.my_drive.axis0.encoder.config.calib_scan_omega = 12.0
-        self.my_drive.axis0.controller.config.pos_gain = 100
+        self.my_drive.axis0.controller.config.pos_gain = 120
         self.my_drive.axis0.controller.config.vel_gain = 0.1
         self.my_drive.axis0.controller.config.vel_integrator_gain = 0.0
         self.my_drive.axis0.controller.config.vel_limit = 1000.0
@@ -192,7 +192,7 @@ class ODriveDriver:
 
         self.my_drive.axis1.motor.config.motor_type = MOTOR_TYPE_HIGH_CURRENT
         self.my_drive.axis1.motor.config.requested_current_range = 9
-        self.my_drive.axis1.motor.config.current_lim = 10
+        self.my_drive.axis1.motor.config.current_lim = 20
         self.my_drive.axis1.motor.config.resistance_calib_max_voltage = 8
         self.my_drive.axis1.motor.config.calibration_current = 10
         self.my_drive.axis1.motor.config.pole_pairs = 14/2
@@ -203,7 +203,7 @@ class ODriveDriver:
         self.my_drive.axis1.encoder.config.calib_range = 0.8
         self.my_drive.axis1.encoder.config.calib_scan_distance = 5.0
         self.my_drive.axis1.encoder.config.calib_scan_omega = 12.0
-        self.my_drive.axis1.controller.config.pos_gain = 100
+        self.my_drive.axis1.controller.config.pos_gain = 120
         self.my_drive.axis1.controller.config.vel_gain = 0.1
         self.my_drive.axis1.controller.config.vel_integrator_gain = 0.0
         self.my_drive.axis1.controller.config.vel_limit = 1000.0
