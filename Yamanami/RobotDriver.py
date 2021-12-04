@@ -1,3 +1,4 @@
+from typing import Tuple, Union
 from Yamanami.ODriveDriver import ODriveDriver
 from Yamanami.myutil import *
 import time
@@ -94,7 +95,8 @@ class RobotDriver(ODriveDriver):
         return cur_angle
 
 
-    def inverseKinematics(self, target_x: float, target_y: float, target_z: float) -> (float, float):
+
+    def inverseKinematics(self, target_x: float, target_y: float, target_z: float) -> Tuple[float, float]:
         if 0.05 < distance3D(0.0, 0.0, 0.0, target_x, target_y, target_z):
             print("Warning: Target position is too close. Inverse Kinematics function returns current joint angles.")
             return self.getCurrentJointAngle_Axis0(), self.getCurrentJointAngle_Axis1()
